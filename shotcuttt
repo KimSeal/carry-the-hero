@@ -1,0 +1,75 @@
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	int n;//n은 방 세로사이즈
+	int m;//m은 방 가로사이즈
+	int meY;//개체 세로축
+	int meX;//개체 가로축
+}
+
+public static class Node{
+	int row, col, dist;
+	vector<int>row2;
+	vector<int>col2;
+	public Coord(int oldrow, int oldcol, int olddist, vector<int> oldrow2, vector<int> oldcol2){
+		this.row=oldrow;
+		this.col=oldcol;
+		this.dist=olddist;
+		this.row2.clear();
+		this.row2.assign(oldrow2.begin(), oldrow2.end());
+		this.row2.push_back(oldrow);
+		this.col2.clear();
+		this.col2.assign(oldcol2.begin(), oldcol2.end());
+		this.col2.push_back(oldcol);
+	}
+}
+
+private static void bfs(n,m,meX,me,Y){
+	int n1=n;
+	int m1=m;
+	int curRow=0;
+	int curCol=0;
+	int curDist=1;
+	vector<int>curRow;
+	vector<int>curCol;
+	
+	vector<vector<bool>>checked(n1,m1);
+	queue<Node> q;
+	
+	q.push(Coord(n,m,0,{n},{m});
+	while(q.isEmpty()){
+		Node node = (Node) q.poll();
+		curRow = coord.row;
+        curCol = coord.col;
+        curDist = coord.dist;
+        curPath = coord.path;
+        path = curPath;
+        ret = curDist;
+        map[curRow][curCol] = 0;
+            
+        // 목적지에 도착하면 루핑 종료
+        if(curRow == rows - 1 && curCol == cols - 1) {
+            break;
+        }
+        
+        // 위로 갈수 있으면
+        if(curRow-1 >= 0 && map[curRow-1][curCol] == 1) {
+            queue.add(new Coord(curRow-1, curCol, curDist+1, curPath));
+        }
+        // 아래로 갈수 있으면
+        if(curRow+1 < rows && map[curRow+1][curCol] == 1) {
+            queue.add(new Coord(curRow+1, curCol, curDist+1, curPath));
+        }
+        // 왼쪽으로 갈수 있으면
+        if(curCol-1 >= 0 && map[curRow][curCol-1] == 1) {
+            queue.add(new Coord(curRow, curCol-1, curDist+1, curPath));
+        }
+    	// 오른쪽으로 갈수 있으면
+        if(curCol+1 < cols && map[curRow][curCol+1] == 1) {
+            queue.add(new Coord(curRow, curCol+1, curDist+1, curPath));
+        }
+	}	
+}
