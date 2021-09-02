@@ -1,0 +1,79 @@
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	int n;//n은 방 세로사이즈
+	int m;//m은 방 가로사이즈
+	int meY;//개체 세로축
+	int meX;//개체 가로축
+	int juY;//주인공 세로축
+	int juX;//주인공 가로축
+}
+
+public static class Node{
+	int row, col, dist;
+	vector<int>row2;
+	vector<int>col2;
+	public Coord(int oldrow, int oldcol, int olddist, vector<int> oldrow2, vector<int> oldcol2){
+		this.row=oldrow;
+		this.col=oldcol;
+		this.dist=olddist;
+		this.row2.clear();
+		this.row2.assign(oldrow2.begin(), oldrow2.end());
+		this.row2.push_back(oldrow);
+		this.col2.clear();
+		this.col2.assign(oldcol2.begin(), oldcol2.end());
+		this.col2.push_back(oldcol);
+	}
+}
+
+private static void bfs(int n,int m,int meX,int meY,int juY, int juX,vector<int>*row2,vector<int>*col2){
+	int n1=n;
+	int m1=m;
+	int curRow=0;
+	int curCol=0;
+	int curDist=1;
+	vector<int>curRows;
+	vector<int>curCols;
+	
+	vector<vector<int>>map(n1,m1);
+	//외부 2차원 맵 복사
+	
+	queue<Node> q;
+	q.push(Coord(meY,meX,0,{meY},{meX});
+	while(q.isEmpty()){
+		Node node = (Node) q.poll();
+		curRow = coord.row;
+        curCol = coord.col;
+        curDist = coord.dist;
+        ret = curDist;
+        map[curRow][curCol] = 0;
+            
+        // 목적지에 도착하면 루핑 종료
+        if(curRow == juY - 1 && curCol == juX - 1) {
+            break;
+        }
+        
+        // 위로 갈수 있으면
+        if(curRow-1 >= 0 && map[curRow-1][curCol] == 1) {
+            queue.add(new Coord(curRow-1, curCol, curDist+1, curRows, curCols));
+        }
+        // 아래로 갈수 있으면
+        if(curRow+1 < juY && map[curRow+1][curCol] == 1) {
+            queue.add(new Coord(curRow+1, curCol, curDist+1, curRows, curCols);
+        }
+        // 왼쪽으로 갈수 있으면
+        if(curCol-1 >= 0 && map[curRow][curCol-1] == 1) {
+            queue.add(new Coord(curRow, curCol-1, curDist+1, curRows, curCols));
+        }
+    	// 오른쪽으로 갈수 있으면
+        if(curCol+1 < juX && map[curRow][curCol+1] == 1) {
+            queue.add(new Coord(curRow, curCol+1, curDist+1, curRows, curCols));
+        }
+	}
+	//만들어진 가로, 세로 배열 복사
+	queue.clear();
+	return 0;
+}
