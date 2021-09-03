@@ -10,6 +10,14 @@ int main(){
 	int meX;//개체 가로축
 	int juY;//주인공 세로축
 	int juX;//주인공 가로축
+	int map[7][7]={{1,1,1,1,1,1,1},
+				   {1,0,0,0,0,0,1},
+				   {1,0,0,0,0,0,1},
+				   {1,0,0,0,0,0,1},
+				   {1,0,0,0,0,0,1},
+				   {1,0,0,0,0,0,1},
+				   {1,1,1,1,1,1,1}};
+	bfs(n,m,meY,meX,juY,juX,map);//2차원 배열의 가로 최대치 지정후 map을 사용할 예정
 }
 
 public static class Node{
@@ -29,7 +37,8 @@ public static class Node{
 	}
 }
 
-private static void bfs(int n,int m,int meX,int meY,int juY, int juX,vector<int>*row2,vector<int>*col2){
+private static void bfs(int n,int m,int meY,int meX,int juY, 
+						int juX,vector<int>*row2,vector<int>*col2,int oldmap[][30]){
 	int n1=n;
 	int m1=m;
 	int curRow=0;
@@ -47,7 +56,7 @@ private static void bfs(int n,int m,int meX,int meY,int juY, int juX,vector<int>
 		Node node = (Node) q.poll();
 		curRow = coord.row;
         curCol = coord.col;
-        curDist = coord.dist;
+        curDist = coord.dist;옞
         ret = curDist;
         map[curRow][curCol] = 0;
             
@@ -72,8 +81,14 @@ private static void bfs(int n,int m,int meX,int meY,int juY, int juX,vector<int>
         if(curCol+1 < juX && map[curRow][curCol+1] == 1) {
             queue.add(new Coord(curRow, curCol+1, curDist+1, curRows, curCols));
         }
-	}
+	}옞
 	//만들어진 가로, 세로 배열 복사
+	for(int i=0;i<curRows.size();i++){
+		cout << curRows[i]<<" ";
+	}
+	for(int i=0;i<curCols.size();i++){
+		cout << curCols[i];
+	}
 	queue.clear();
 	return 0;
 }
