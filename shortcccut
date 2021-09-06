@@ -20,7 +20,7 @@ int main(){
 				   {1,0,0,0,0,0,1},
 				   {1,0,0,0,0,0,1},
 				   {1,1,1,1,1,1,1}};
-	bfs(7,7,0,0,6,6,newmap);
+	bfs(7,7,4,6,2,6,newmap);
 	//bfs(n,m,meY,meX,juY,juX,map[][30]);//2차원 배열의 가로 최대치 지정후 map을 사용할 예정
 	return 0;
 }
@@ -30,16 +30,18 @@ class Node{
 	int row, col, dist;
 	vector<int>row2;
 	vector<int>col2;
-	void node_Make(int oldrow, int oldcol, int olddist, vector<int> oldrow2, vector<int> oldcol2){
+	void node_Make(int oldrow, int oldcol, int olddist){
 		this->row=oldrow;
 		this->col=oldcol;
 		this->dist=olddist;
-		this->row2.clear();
-		this->row2.assign(oldrow2.begin(), oldrow2.end());
-		this->row2.push_back(oldrow);
-		this->col2.clear();
-		this->col2.assign(oldcol2.begin(), oldcol2.end());
-		this->col2.push_back(oldcol);
+	}
+	void node_vec(int row1, int col1){
+		row2.push_back(row1);
+		col2.push_back(col1);
+	}
+	void node_del(){
+		row2.pop_back();
+		col2.pop_back();
 	}
 };
 
@@ -48,7 +50,7 @@ void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7]){
 	int m1=m;
 	int curRow=0;
 	int curCol=0;
-	int curDist=1;
+	int curDist=0;
 	vector<int>curRows;
 	vector<int>curCols;
 	
@@ -58,66 +60,85 @@ void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7]){
 		map.push_back(map2);
 		for(int j=0;j<m;j++){
 			map[i].push_back(oldmap[i][j]);
-			cout<<map[i][j]<<" ";
+			//cout<<map[i][j]<<" ";
 		}
-		cout<<"\n";
+		//cout<<"\n";
 	}
 	//외부 2차원 맵 복사
 	
 	queue<Node> q;
 	Node mainnode, mainnode2;
-	mainnode.node_Make(meY,meX,0,{meY},{meX});
+	mainnode.node_Make(meY,meX,0);
+	mainnode.node_vec(meY,meX);
 	q.push(mainnode);
+	mainnode.row2.clear();
+	mainnode.col2.clear();
 	while(!q.empty()){
-		mainnode.node_Make(q.front().row, q.front().col, q.front().dist, q.front().row2, q.front().col2);
+		mainnode.node_Make(q.front().row, q.front().col, q.front().dist);
 		//cout << q.front().row << q.front().col << q.front().dist;
+		mainnode.row2.clear();
+		mainnode.col2.clear();
+		mainnode2.row2.clear();
+		mainnode2.col2.clear();
+		for(int i=0;i<=curDist;i++){
+			mainnode2.node_vec(q.front().row2[i],q.front().col2[i]);  //col2[i]가 core dumped 되네..
+			cout << "(" <<q.front().row2[i]<<"," << q.front().col2[i]<<") \n";
+		}
+		cout<<"//";
+		for(int i=0;i<=curDist;i++){
+			cout << "(" <<mainnode2.row2[i]<<"," << mainnode2.col2[i]<<") ";
+		}
+		cout<<"\n";
+		
 		cout<<q.front().row2[0] << q.front().col2[0];
 		q.pop();
-		curRow = mainnode2.row;
-        curCol = mainnode2.col;
-        curDist = mainnode2.dist;
+		curRow = mainnode.row;
+        curCol = mainnode.col;
+        curDist = mainnode.dist;
         map[curRow][curCol] = 0;
-        cout << curRow << " "<<curCol<<" "<<curDist<<"\n";
+        cout <<"("<< curRow << " "<<curCol<<" "<<curDist<<")\n";
         // 목적지에 도착하면 루핑 종료
+		cout<<"errorcheck0";
         if(curRow == juY && curCol == juX) {
-			cout<<juY<<juX<<"weare error";
             break;
         }
-        cout<<"upchek";
-		cout <<curRow-1<<" "<<map[curRow-1][curCol]<<"\n";
         // 위로 갈수 있으면
+		cout<<"errorcheck1";
         if(curRow-1 >= 0 && map[curRow-1][curCol] == 1) {
-			mainnode2.node_Make(curRow-1, curCol, curDist+1, curRows, curCols);
+			mainnode2.node_Make(curRow-1, curCol, curDist+1);
+			mainnode2.node_vec(curRow-1,curCol);
             q.push(mainnode2);
+			mainnode2.node_del();
         }
         // 아래로 갈수 있으면
-		cout<<"downchek";
         if(curRow+1 < n1 && map[curRow+1][curCol] == 1) {
-            mainnode2.node_Make(curRow+1, curCol, curDist+1, curRows, curCols);
+            mainnode2.node_Make(curRow+1, curCol, curDist+1);
+			mainnode2.node_vec(curRow+1,curCol);
 			q.push(mainnode2);
-			cout<<"down did!\n";
+			mainnode2.node_del();
         }
         // 왼쪽으로 갈수 있으면
-		cout<<"leftchek";
         if(curCol-1 >= 0 && map[curRow][curCol-1] == 1) {
-            mainnode2.node_Make(curRow, curCol-1, curDist+1, curRows, curCols);
+            mainnode2.node_Make(curRow, curCol-1, curDist+1);
+			mainnode2.node_vec(curRow,curCol-1);
 			q.push(mainnode2);
+			mainnode2.node_del();
         }
     	// 오른쪽으로 갈수 있으면
-		cout<<"rightchek";
         if(curCol+1 < m1 && map[curRow][curCol+1] == 1) {
-            mainnode2.node_Make(curRow, curCol+1, curDist+1, curRows, curCols);
+            mainnode2.node_Make(curRow, curCol+1, curDist+1);
+			mainnode2.node_vec(curRow,curCol+1);
         	q.push(mainnode2);
-			cout<<"right did!\n";
+			mainnode2.node_del();
 		}
 	}
-	cout <<"clear!";
+	cout <<" clear!";
 	//만들어진 가로, 세로 배열 복사
-	for(int i=0;i<curRows.size();i++){
-		cout << mainnode.row2[i]<<" ";
+	for(int i=0;i<=curDist;i++){
+		cout << mainnode2.row2[i]<<" ";
 	}
-	for(int i=0;i<curCols.size();i++){
-		cout << mainnode.col2[i]<<" ";
+	for(int i=0;i<=curDist;i++){
+		cout << mainnode2.col2[i]<<" ";
 	}
 	 while(!q.empty()){
         q.pop();
