@@ -17,13 +17,13 @@ int main(){
 	int speed=1;
 	vector<int> hello;//[1]부터 이동해야하는 방향을 나타냄.1,2,3,4 순으로 북동남서
 	int newmap[7][7]={{0,0,0,0,0,0,0},
-				      {0,1,1,1,1,1,0},
-				      {0,1,0,0,0,1,0},
-				      {0,1,0,1,0,1,0},
-				      {0,1,0,1,0,1,0},
-				      {0,1,1,1,0,1,0},
+				      {0,2,0,0,0,0,0},
+				      {0,0,0,0,0,0,0},
+				      {0,0,0,0,0,0,0},
+				      {0,0,0,0,0,0,0},
+				      {0,0,0,0,0,3,0},
 				      {0,0,0,0,0,0,0}};
-	/*while(catched==0){
+	while(catched==0){
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
 				cout<<newmap[i][j];
@@ -68,7 +68,7 @@ int main(){
 			}
 		}
 		cout<<"errorcheck";
-		/*hello=bfs(7,7,meY,meX,juY,juX,newmap);
+		hello=bfs(7,7,meY,meX,juY,juX,newmap);
 		cout<<"errorcheck2"<<hello[0];
 		for(int i=0;i<speed;i++){
 			if(hello[i]==5){
@@ -107,7 +107,7 @@ int main(){
 				}
 			}
 		}
-	}*/
+	}
 	hello=bfs(7,7,3,3,5,5,newmap);
 	for(int i=0;hello[i]!=5;i++){
 		cout << "(" << hello[i]<<")";
