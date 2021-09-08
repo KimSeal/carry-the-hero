@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 using namespace std;
-
+//finish!
 void bfs(int n,int m,int meY,int meX,int juY, 
 						int juX,int oldmap[7][7]);
 
@@ -101,28 +101,28 @@ void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7]){
             break;
         }
         // 위로 갈수 있으면
-        if(curRow-1 >= 0 && map[curRow-1][curCol] == 1) {
+        if(curRow-1 >= 0 && map[curRow-1][curCol] == 0) {
 			mainnode2.node_Make(curRow-1, curCol, curDist+1);
 			mainnode2.node_vec(curRow-1,curCol);
             q.push(mainnode2);
 			mainnode2.node_del();
         }
         // 아래로 갈수 있으면
-        if(curRow+1 < n1 && map[curRow+1][curCol] == 1) {
+        if(curRow+1 < n1 && map[curRow+1][curCol] == 0) {
             mainnode2.node_Make(curRow+1, curCol, curDist+1);
 			mainnode2.node_vec(curRow+1,curCol);
 			q.push(mainnode2);
 			mainnode2.node_del();
         }
         // 왼쪽으로 갈수 있으면
-        if(curCol-1 >= 0 && map[curRow][curCol-1] == 1) {
+        if(curCol-1 >= 0 && map[curRow][curCol-1] == 0) {
             mainnode2.node_Make(curRow, curCol-1, curDist+1);
 			mainnode2.node_vec(curRow,curCol-1);
 			q.push(mainnode2);
 			mainnode2.node_del();
         }
     	// 오른쪽으로 갈수 있으면
-        if(curCol+1 < m1 && map[curRow][curCol+1] == 1) {
+        if(curCol+1 < m1 && map[curRow][curCol+1] == 0) {
             mainnode2.node_Make(curRow, curCol+1, curDist+1);
 			mainnode2.node_vec(curRow,curCol+1);
         	q.push(mainnode2);
