@@ -13,14 +13,14 @@ int main(){
 	//int meX;//개체 가로축
 	//int juY;//주인공 세로축
 	//int juX;//주인공 가로축
-	int newmap[7][7]={{1,1,1,1,1,1,1},
-				   {1,0,0,0,0,0,1},
-				   {1,0,0,0,0,0,1},
-				   {1,0,0,0,0,0,1},
-				   {1,0,0,0,0,0,1},
-				   {1,0,0,0,0,0,1},
-				   {1,1,1,1,1,1,1}};
-	bfs(7,7,4,6,2,6,newmap);
+	int newmap[7][7]={{0,0,0,0,0,0,0},
+				      {0,1,1,1,1,1,0},
+				      {0,1,0,0,0,1,0},
+				      {0,1,0,1,0,1,0},
+				      {0,1,0,1,0,1,0},
+				      {0,1,1,1,0,1,0},
+				      {0,0,0,0,0,0,0}};
+	bfs(7,7,3,3,6,6,newmap);
 	//bfs(n,m,meY,meX,juY,juX,map[][30]);//2차원 배열의 가로 최대치 지정후 map을 사용할 예정
 	return 0;
 }
@@ -80,30 +80,27 @@ void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7]){
 		mainnode.col2.clear();
 		mainnode2.row2.clear();
 		mainnode2.col2.clear();
-		for(int i=0;i<=curDist;i++){
-			mainnode2.node_vec(q.front().row2[i],q.front().col2[i]);  //col2[i]가 core dumped 되네..
-			cout << "(" <<q.front().row2[i]<<"," << q.front().col2[i]<<") \n";
-		}
-		cout<<"//";
-		for(int i=0;i<=curDist;i++){
-			cout << "(" <<mainnode2.row2[i]<<"," << mainnode2.col2[i]<<") ";
-		}
-		cout<<"\n";
-		
-		cout<<q.front().row2[0] << q.front().col2[0];
-		q.pop();
 		curRow = mainnode.row;
         curCol = mainnode.col;
         curDist = mainnode.dist;
+		for(int i=0;i<=curDist;i++){
+			mainnode2.node_vec(q.front().row2[i],q.front().col2[i]); 
+			//cout << "(" <<q.front().row2[i]<<"," << q.front().col2[i]<<") \n";
+		}
+		//cout<<"//";
+		//for(int i=0;i<=curDist;i++){
+	//		cout << "(" <<mainnode2.row2[i]<<"," << mainnode2.col2[i]<<") ";
+	//	}
+		//cout<<"\n";
+		q.pop();
+		
         map[curRow][curCol] = 0;
-        cout <<"("<< curRow << " "<<curCol<<" "<<curDist<<")\n";
+        //cout <<"("<< curRow << " "<<curCol<<" "<<curDist<<")\n";
         // 목적지에 도착하면 루핑 종료
-		cout<<"errorcheck0";
         if(curRow == juY && curCol == juX) {
             break;
         }
         // 위로 갈수 있으면
-		cout<<"errorcheck1";
         if(curRow-1 >= 0 && map[curRow-1][curCol] == 1) {
 			mainnode2.node_Make(curRow-1, curCol, curDist+1);
 			mainnode2.node_vec(curRow-1,curCol);
@@ -135,10 +132,7 @@ void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7]){
 	cout <<" clear!";
 	//만들어진 가로, 세로 배열 복사
 	for(int i=0;i<=curDist;i++){
-		cout << mainnode2.row2[i]<<" ";
-	}
-	for(int i=0;i<=curDist;i++){
-		cout << mainnode2.col2[i]<<" ";
+		cout << "(" << mainnode2.row2[i]<<","<< mainnode2.col2[i]<<")";
 	}
 	 while(!q.empty()){
         q.pop();
