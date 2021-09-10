@@ -23,7 +23,7 @@ int main(){
 				      {0,0,0,0,0,0,0},
 				      {0,0,0,0,0,3,0},
 				      {0,0,0,0,0,0,0}};
-	while(catched==0){
+	while(catched==0){//잡힐때 까지
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
 				cout<<newmap[i][j];
@@ -32,10 +32,10 @@ int main(){
 		}
 		cout<<"input moving";
 		cin>>input;//주인공 움직임
-		if(input==5){
+		if(input==5){//플레이어의 종료 선언
 			break;
 		}
-		if(input==1){
+		if(input==1){//1234 순으로 북동남서
 			if((juY-1)>=0&&newmap[juY-1][juX]==0){
 				newmap[juY][juX]=0;
 				juY-=1;
@@ -68,10 +68,10 @@ int main(){
 			}
 		}
 		cout<<"errorcheck";
-		hello=bfs(7,7,meY,meX,juY,juX,newmap);
+		hello=bfs(7,7,meY,meX,juY,juX,newmap);//몬스터의 이동방향 결정
 		cout<<"errorcheck2"<<hello[0];
 		for(int i=0;i<speed;i++){
-			if(hello[i]==5){
+			if(hello[i]==5){//몬스터의 추적 정지
 				break;
 			}
 			if(hello[i]==1){
@@ -108,7 +108,7 @@ int main(){
 			}
 		}
 	}
-	hello=bfs(7,7,3,3,5,5,newmap);
+	hello=bfs(7,7,3,3,5,5,newmap);//error 체크. 동작에는 필요없으니 추후 삭제
 	for(int i=0;hello[i]!=5;i++){
 		cout << "(" << hello[i]<<")";
 	}
