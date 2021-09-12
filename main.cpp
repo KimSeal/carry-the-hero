@@ -8,22 +8,24 @@ using namespace std;
 int main(){
 	int n=7;//n은 방 세로사이즈
 	int m=7;//m은 방 가로사이즈
-	int meY=5;//개체 세로축
-	int meX=5;//개체 가로축
-	int juY=1;//주인공 세로축
-	int juX=1;//주인공 가로축
+	int meY=4;//개체 세로축
+	int meX=4;//개체 가로축
+	int juY=2;//주인공 세로축
+	int juX=2;//주인공 가로축
 	int catched=0;//주인공과 적 접촉 여부
 	int input;
 	int speed=1;
 	vector<int> hello;//[1]부터 이동해야하는 방향을 나타냄.1,2,3,4 순으로 북동남서
+	int hello1=0;
+	int hello2=0;
 	int newmap[7][7]={{0,0,0,0,0,0,0},
-				      {0,2,0,0,0,0,0},
 				      {0,0,0,0,0,0,0},
+				      {0,0,2,0,0,0,0},
 				      {0,0,0,0,0,0,0},
+				      {0,0,0,0,3,0,0},
 				      {0,0,0,0,0,0,0},
-				      {0,0,0,0,0,3,0},
 				      {0,0,0,0,0,0,0}};
-	while(catched==0){//잡힐때 까지
+	while(catched==0){
 		for(int i=0;i<n;i++){
 			for(int j=0;j<n;j++){
 				cout<<newmap[i][j];
@@ -32,10 +34,10 @@ int main(){
 		}
 		cout<<"input moving";
 		cin>>input;//주인공 움직임
-		if(input==5){//플레이어의 종료 선언
+		if(input==5){
 			break;
 		}
-		if(input==1){//1234 순으로 북동남서
+		if(input==1){
 			if((juY-1)>=0&&newmap[juY-1][juX]==0){
 				newmap[juY][juX]=0;
 				juY-=1;
@@ -67,14 +69,21 @@ int main(){
 				cout<<"go left\n";
 			}
 		}
-		cout<<"errorcheck";
-		hello=bfs(7,7,meY,meX,juY,juX,newmap);//몬스터의 이동방향 결정
-		cout<<"errorcheck2"<<hello[0];
-		for(int i=0;i<speed;i++){
-			if(hello[i]==5){//몬스터의 추적 정지
+		cout<<"juY:"<<juY<<"juX:"<<juX<<"\n";
+
+		hello2= bfs(7,7,meY,meX,juY,juX,newmap,3);
+		//hello2=test(1);
+		//cout<<hello2;
+		//return 0;
+		cout<<"errorcheck2";
+		
+		for(int i=0;i<speed;i++){                     //speed 만들어야됨 09.12 
+			hello1=hello2%5;
+			cout<<hello1;
+			if(hello1==0){
 				break;
 			}
-			if(hello[i]==1){
+			if(hello1==1){
 				if((meY-1)>=0&&newmap[meY-1][meX]==0){
 					newmap[meY][meX]=0;
 					meY-=1;
@@ -82,7 +91,7 @@ int main(){
 					cout<<"go up\n";
 				}
 			}
-			else if(hello[i]==2){
+			else if(hello1==2){
 				if((meX+1)<m && newmap[meY][meX+1]==0){
 					newmap[meY][meX]=0;
 					meX+=1;
@@ -90,7 +99,7 @@ int main(){
 					cout<<"go right\n";
 				}
 			}
-			else if(hello[i]==3){
+			else if(hello1==3){
 				if((meY+1)<n&&newmap[meY+1][meX]==0){
 					newmap[meY][meX]=0;
 					meY+=1;
@@ -98,7 +107,7 @@ int main(){
 					cout<<"go down\n";
 				}
 			}
-			else if(hello[i]==4){
+			else if(hello1==4){
 				if((meX-1)>=0 && newmap[meY][meX-1]==0){
 					newmap[meY][meX]=0;
 					meX-=1;
@@ -106,9 +115,12 @@ int main(){
 					cout<<"go left\n";
 				}
 			}
+			hello2=hello2/5;
 		}
+		
+		//hello.clear();
 	}
-	hello=bfs(7,7,3,3,5,5,newmap);//error 체크. 동작에는 필요없으니 추후 삭제
+	//hello=bfs(7,7,3,3,5,5,newmap,3);
 	for(int i=0;hello[i]!=5;i++){
 		cout << "(" << hello[i]<<")";
 	}
