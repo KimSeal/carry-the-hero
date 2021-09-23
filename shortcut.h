@@ -31,7 +31,7 @@ class Node{
 	}
 };
 
-int bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight){
+void bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight,int * future){
 	int n1=n;
 	int m1=m;
 	int curRow=0;
@@ -39,14 +39,15 @@ int bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight)
 	int curDist=0;
 	vector<int>curRows;
 	vector<int>curCols;
-	
+	for(int i=0;i<30;i++){
+		future[i]=0;
+	}
 	vector<vector<int>> map;
 	vector<int>map2;
 	for(int i=0;i<n;i++){
 		map.push_back(map2);
 		for(int j=0;j<m;j++){
 			map[i].push_back(oldmap[i][j]);
-			//cout<<map[i][j]<<" ";
 		}
 		//cout<<"\n";
 	}
@@ -63,7 +64,6 @@ int bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight)
 	mainnode.move.clear();
 	while(!q.empty()){
 		mainnode.node_Make(q.front().row, q.front().col, q.front().dist);
-		//cout << q.front().row << q.front().col << q.front().dist<<"\n";
 		mainnode.row2.clear();
 		mainnode.col2.clear();
 		mainnode.move.clear();
@@ -74,40 +74,24 @@ int bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight)
         curCol = mainnode.col;
         curDist = mainnode.dist;
 		
-		/*for(int i=0;i<n;i++){
-			for(int j=0;j<m;j++){
-				cout<<map[i][j]<<" ";
-			}
-			cout<<"\n";
-		}*/
-		
 		for(int i=0;i<=curDist;i++){//vector<int> 
 			mainnode2.node_vec(q.front().row2[i],q.front().col2[i]); 
 			mainnode2.node_move(q.front().move[i]);
-			//cout<<q.front().move[i]<<" ";
-			//cout << "(" <<q.front().row2[i]<<"," << q.front().col2[i]<<") \n";
 		}
-		//cout<<"//";
-		for(int i=0;i<=curDist;i++){
-		//	cout << "(" <<mainnode2.row2[i]<<"," << mainnode2.col2[i]<<") ";
-		}
-		//cout<<"curRow:"<<curRow<<" curCol:"<<curCol;
-		//cout<<"juY:"<<juY<<" juX:"<<juX<<"\n";
-		//cout<<"\n";
+
 		if(curRow == juY){
 			if(curCol == juX-1 || curCol == juX+1){
 				break;
 			}
 		}
 		if(curCol == juX) {
-            if(curRow==juY-1||curCol==juX+1){
+            if(curRow==juY-1||curRow==juY+1){
 				break;
 			}
         }
 		q.pop();
 		
         map[curRow][curCol] = 1;
-        //cout <<"("<< curRow << " "<<curCol<<" "<<curDist<<")\n";
         // 목적지에 도착하면 루핑 종료
        
         // 위로 갈수 있으면
@@ -150,25 +134,17 @@ int bfs(int n,int m,int meY,int meX,int juY, int juX,int oldmap[7][7],int sight)
 	//만들어진 가로, 세로 배열 복사
 	if(q.empty()){
 			mainnode2.move.clear();
-			mainnode2.move.push_back(0);
-			mainnode2.move.push_back(5);
-			cout<<curDist<<sight<<"monster not move\n";
+			cout<<"monster not move\n";
 	}
-	int return_value=0;
-	int i=curDist;
-	while(i>=1){
-		cout<<i<<"\n";
-		return_value *= 5;
-		return_value += mainnode2.move[i];
-		//cout << "(" << mainnode2.row2[i]<<","<< mainnode2.col2[i]<<","<<mainnode2.move[i]<<")\n";
-		
-		i--;
+	else{
+		int i=curDist;
+		while(i>=1){
+			future[i-1] = mainnode2.move[i];
+			i--;
+		}
+		while(!q.empty()){
+      	 	q.pop();
+    	}
+		cout<<"function clear!";
 	}
-	//cout<<"end for";
-	while(!q.empty()){
-       q.pop();
-    }
-	//mainnode2.move.push_back(5);
-	cout<<"function clear!";
-	return mainnode2.row2[1];
 }
