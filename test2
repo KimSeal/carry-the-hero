@@ -1,0 +1,33 @@
+#include <iostream>
+#include "player.h"
+using namespace std;
+
+int main(){
+	character player1;
+	player1.hp=5;
+	int newmap[7][7]={{1,1,1,1,1,1,1},
+				      {1,2,0,0,0,0,1},
+				      {1,0,1,0,1,0,1},
+				      {1,0,0,0,0,0,1},
+				      {1,0,1,0,1,0,1},
+				      {1,0,0,0,0,3,1},
+				      {1,1,1,1,1,1,1}};
+	
+	for(int i=0;i<7;i++){
+		for(int j=0;j<7;j++){
+			if(newmap[i][j]==2){ //플레이어 찾기
+				player1.Y=i;
+				player1.X=j;
+			}
+		}
+	}
+	
+	playerMove(&player1, newmap);
+	for(int i=0;i<7;i++){
+		for(int j=0;j<7;j++){
+			cout<<newmap[i][j];
+		}
+		cout<<"\n";
+	}
+	return 0;
+}
