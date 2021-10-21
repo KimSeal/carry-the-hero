@@ -2,18 +2,10 @@
 #include <vector>
 #include <queue>
 #include "shortcut.h"
+#include "player.h"
 using namespace std;
 //finish!
-struct character{
-	int Y;
-	int X;
-	int hp;
-};
-struct monster{
-	int Y;
-	int X;
-	int movement[30];
-};
+
 int main(){
 	character player;
 	player.hp=5;
@@ -54,39 +46,7 @@ int main(){
 			cout<<"\n";
 		}
 		cout<<"input moving";
-		cin>>input;//주인공 움직임
-		if(input==1){
-			if((player.Y-1)>=0&&newmap[player.Y-1][player.X]==0){
-				newmap[player.Y][player.X]=0;
-				player.Y-=1;
-				newmap[player.Y][player.X]=2;
-				cout<<"go up\n";
-			}
-		}
-		else if(input==2){
-			if((player.X+1)<m && newmap[player.Y][player.X+1]==0){
-				newmap[player.Y][player.X]=0;
-				player.X+=1;
-				newmap[player.Y][player.X]=2;
-				cout<<"go right\n";
-			}
-		}
-		else if(input==3){
-			if((player.Y+1)<n&&newmap[player.Y+1][player.X]==0){
-				newmap[player.Y][player.X]=0;
-				player.Y+=1;
-				newmap[player.Y][player.X]=2;
-				cout<<"go down\n";
-			}
-		}
-		else if(input==4){
-			if((player.X-1)>=0 && newmap[player.Y][player.X-1]==0){
-				newmap[player.Y][player.X]=0;
-				player.X-=1;
-				newmap[player.Y][player.X]=2;
-				cout<<"go left\n";
-			}
-		}
+		playerMove(&player,newmap);
 		for(int i=0;i<30;i++){
 			mon1.movement[i]=0;
 		}
@@ -95,19 +55,19 @@ int main(){
 			cout<<mon1.movement[i];
 		}
 		cout<<"\n";
-		for(int i=0;i<1/*speed*/;i++){                     //speed 만들어야됨 09.12 
-			for(int k=0;k<n;k++){
-				for(int j=0;j<n;j++){
-					if(newmap[k][j]==2){ //플레이어 찾기
-						player.Y=k;
-						player.X=j;
-					}
-					if(newmap[k][j]==3){ //몬스터 찾기
-						mon1.Y=k;
-						mon1.X=j;
-					}
+		for(int k=0;k<n;k++){
+			for(int j=0;j<n;j++){
+				if(newmap[k][j]==2){ //플레이어 찾기
+					player.Y=k;
+					player.X=j;
+				}
+				if(newmap[k][j]==3){ //몬스터 찾기
+					mon1.Y=k;
+					mon1.X=j;
 				}
 			}
+		}
+		for(int i=0;i<1/*speed*/;i++){                     //speed 만들어야됨 09.12 
 			if(catched==1){
 				catched=0;
 				player.hp-=1;
@@ -115,38 +75,10 @@ int main(){
 			else if(mon1.movement[i]==0){
 				break;
 			}
-			else if(mon1.movement[i]==1){
-				if((mon1.Y-1)>=0&&newmap[mon1.Y-1][mon1.X]==0){
-					newmap[mon1.Y][mon1.X]=0;
-					mon1.Y-=1;
-					newmap[mon1.Y][mon1.X]=3;
-					cout<<"go up\n";
-				}
+			else{
+				monsterMove(i, &mon1, newmap, m, n);
 			}
-			else if(mon1.movement[i]==2){
-				if((mon1.X+1)<m && newmap[mon1.Y][mon1.X+1]==0){
-					newmap[mon1.Y][mon1.X]=0;
-					mon1.X+=1;
-					newmap[mon1.Y][mon1.X]=3;
-					cout<<"go right\n";
-				}
-			}
-			else if(mon1.movement[i]==3){
-				if((mon1.Y+1)<n&&newmap[mon1.Y+1][mon1.X]==0){
-					newmap[mon1.Y][mon1.X]=0;
-					mon1.Y+=1;
-					newmap[mon1.Y][mon1.X]=3;
-					cout<<"go down\n";
-				}
-			}
-			else if(mon1.movement[i]==4){
-				if((mon1.X-1)>=0 && newmap[mon1.Y][mon1.X-1]==0){
-					newmap[mon1.Y][mon1.X]=0;
-					mon1.X-=1;
-					newmap[mon1.Y][mon1.X]=3;
-					cout<<"go left\n";
-				}
-			}
+			
 		}
 		if(mon1.Y == player.Y){
 			if(mon1.X == player.X-1 || mon1.X == player.X+1){
